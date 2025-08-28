@@ -5,6 +5,14 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.esm.js"
+    }
+  },
   "files": [
     "dist",
     "src",
@@ -37,14 +45,15 @@
   ],
   "author": "umairahmedyounas1987@gmail.com",
   "license": "MIT",
+  
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/quanta.git"
+    "url": "https://github.com/NILEG/QuantumSimulator.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/quanta/issues"
+    "url": "https://github.com/NILEG/QuantumSimulator/issues"
   },
-  "homepage": "https://github.com/yourusername/quanta#readme",
+  "homepage": "https://github.com/NILEG/QuantumSimulator#readme",
   "dependencies": {
     "mathjs": "^12.0.0"
   },

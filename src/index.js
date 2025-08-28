@@ -1,28 +1,35 @@
-// Core Classes
+import {
+  complex,
+  multiply,
+  kron,
+  transpose,
+  conj,
+  matrix,
+  zeros,
+  add,
+  trace,
+  divide,
+  re,
+  im,
+  abs,
+} from "mathjs";
+
+// Import the class first
+import { QuantumSimulator } from "./core/QuantumSimulator.js";
+
+// All your named exports
 export { QuantumSimulator } from "./core/QuantumSimulator.js";
 export { QuantumCircuit } from "./core/QuantumCircuit.js";
 export { Qubit } from "./core/Qubit.js";
 export { Gate } from "./core/Gate.js";
 export { CircuitOperation } from "./core/CircuitOperation.js";
-
-// Classical Computing Support
 export { ClassicalRegister } from "./classical/ClassicalRegister.js";
 export { ClassicalCondition } from "./classical/ClassicalCondition.js";
-
-// Configuration
 export { SimulatorConfiguration } from "./config/SimulatorConfiguration.js";
-
-// Utilities
 export { ComplexNumber } from "./utils/ComplexNumber.js";
-
-// Constants
 export { gateMatrices, quantumStates } from "./constants/QuantumConstants.js";
 
-// Algorithms (optional - for pre-built quantum algorithms)
-export { QuantumAlgorithms } from "./algorithms/QuantumAlgorithms.js";
-
-// Version information
 export const version = "1.0.0";
 
-// Default export for convenience
+// Default export - this is the key fix
 export default QuantumSimulator;

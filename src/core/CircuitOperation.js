@@ -1,3 +1,19 @@
+import {
+  complex,
+  multiply,
+  kron,
+  transpose,
+  conj,
+  matrix,
+  zeros,
+  add,
+  trace,
+  divide,
+  re,
+  im,
+  abs,
+} from "mathjs";
+import { ClassicalCondition } from "../classical/ClassicalCondition.js";
 export class CircuitOperation {
   constructor(gate, qubits, classicalOperations = [], condition = null) {
     this.gate = gate;

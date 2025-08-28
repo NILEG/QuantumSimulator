@@ -1,3 +1,26 @@
+import {
+  complex,
+  multiply,
+  kron,
+  transpose,
+  conj,
+  matrix,
+  zeros,
+  add,
+  trace,
+  divide,
+  re,
+  im,
+  abs,
+} from "mathjs";
+import { ClassicalRegister } from "../classical/ClassicalRegister.js";
+import { c } from "../constants/QuantumConstants.js";
+import { Qubit } from "./Qubit.js";
+import { gateMatrices } from "../constants/QuantumConstants.js";
+import { Gate } from "./Gate.js";
+import { CircuitOperation } from "./CircuitOperation.js";
+import { ClassicalCondition } from "../classical/ClassicalCondition.js";
+import { ComplexNumber } from "../utils/ComplexNumber.js";
 export class QuantumCircuit {
   constructor(
     numQubits,

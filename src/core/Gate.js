@@ -1,3 +1,20 @@
+import {
+  complex,
+  multiply,
+  kron,
+  transpose,
+  conj,
+  matrix,
+  zeros,
+  add,
+  trace,
+  divide,
+  re,
+  im,
+  abs,
+} from "mathjs";
+import { c } from "../constants/QuantumConstants.js";
+
 export class Gate {
   constructor(name, matrix, parameters = [], qubits = []) {
     this.name = name;

@@ -1,3 +1,20 @@
+import {
+  complex,
+  multiply,
+  kron,
+  transpose,
+  conj,
+  matrix,
+  zeros,
+  add,
+  trace,
+  divide,
+  re,
+  im,
+  abs,
+} from "mathjs";
+import { quantumStates } from "../constants/QuantumConstants.js";
+
 export class Qubit {
   constructor(initialState = "|0>") {
     this.state = matrix(quantumStates[initialState]);

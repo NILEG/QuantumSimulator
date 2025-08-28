@@ -1,4 +1,20 @@
-class ComplexNumber {
+import {
+  complex,
+  multiply,
+  kron,
+  transpose,
+  conj,
+  matrix,
+  zeros,
+  add,
+  trace,
+  divide,
+  re,
+  im,
+  abs,
+} from "mathjs";
+
+export class ComplexNumber {
   constructor(real, imag = 0) {
     this.real = real;
     this.imag = imag;

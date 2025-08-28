@@ -1,4 +1,22 @@
-class QuantumSimulator {
+import {
+  complex,
+  multiply,
+  kron,
+  transpose,
+  conj,
+  matrix,
+  zeros,
+  add,
+  trace,
+  divide,
+  re,
+  im,
+  abs,
+} from "mathjs";
+import { QuantumCircuit } from "./QuantumCircuit.js";
+import { SimulatorConfiguration } from "../config/SimulatorConfiguration.js";
+
+export class QuantumSimulator {
   constructor() {
     this.circuits = new Map();
     this.currentCircuit = null;
