@@ -1,0 +1,71 @@
+{
+  "name": "quanta",
+  "version": "1.0.0",
+  "description": "A comprehensive quantum computing simulator library with support for quantum circuits, gates, measurements, and classical conditional operations",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .js,.ts",
+    "lint:fix": "eslint src --ext .js,.ts --fix",
+    "docs": "jsdoc -c jsdoc.conf.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run build"
+  },
+  "keywords": [
+    "quantum",
+    "quantum-computing",
+    "quantum-simulator",
+    "quantum-circuits",
+    "qasm",
+    "openqasm",
+    "quantum-gates",
+    "quantum-algorithms",
+    "quantum-mechanics",
+    "physics",
+    "simulation"
+  ],
+  "author": "umairahmedyounas1987@gmail.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/quanta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/quanta/issues"
+  },
+  "homepage": "https://github.com/yourusername/quanta#readme",
+  "dependencies": {
+    "mathjs": "^12.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-terser": "^0.4.4",
+    "eslint": "^8.50.0",
+    "jest": "^29.7.0",
+    "jsdoc": "^4.0.2",
+    "rollup": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
