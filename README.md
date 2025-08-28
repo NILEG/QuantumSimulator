@@ -13,18 +13,44 @@ A comprehensive quantum computing simulator library with support for quantum cir
 ## Quick Start
 
 ```javascript
-import { QuantumSimulator } from "quanta-quantum-simulator";
+import { QuantumSimulator } from "quanta_sim";
 
-// Create a quantum simulator
 const simulator = new QuantumSimulator();
+const configuration = simulator
+  .configure()
+  .setMeasurementDeferred(false)
+  .setEqualProbabilityCollapse("0");
 
-// Create a simple Bell state circuit
-const bellCircuit = simulator.createCircuit("bell_state", 2, { c: 2 });
-bellCircuit.h(0); // Apply Hadamard to qubit 0
-bellCircuit.cnot(0, 1); // Apply CNOT with control=0, target=1
-bellCircuit.measureAll(); // Measure all qubits
+const phaseCircuit = simulator.createCircuit("phase_test", 2, { c: 2 });
+phaseCircuit.h(0);
+phaseCircuit.s(0); // S gate
+phaseCircuit.t(1); // T gate
+phaseCircuit.p(Math.PI / 6, 0); // Custom phase gate
 
-// Execute the circuit
-const result = bellCircuit.executeDeterministic();
-console.log(result.finalProbabilities);
+// Add measurements to see final classical state
+phaseCircuit.measure(0, "c", 0);
+phaseCircuit.measure(1, "c", 1);
+
+console.log("Phase Gates QASM:");
+console.log(phaseCircuit.toQASM());
+
+const phaseResult = phaseCircuit.executeDeterministic();
+console.log("\nPhase Circuit Final Probabilities:");
+phaseResult.finalProbabilities.forEach((state) => {
+  if (state.probability > 1e-10) {
+    console.log(
+      `${state.state}: ${state.probability.toFixed(
+        6
+      )} (amplitude: ${state.amplitude.toString()})`
+    );
+  }
+});
+
+console.log("Final classical registers:");
+console.log(
+  "Register c:",
+  phaseCircuit.getClassicalRegister("c").toString(),
+  "Value:",
+  phaseCircuit.getClassicalValue("c")
+);
 ```
