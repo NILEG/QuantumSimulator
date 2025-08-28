@@ -1,6 +1,6 @@
 {
   "name": "quanta_sim",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A comprehensive quantum computing simulator library with support for quantum circuits, gates, measurements, and classical conditional operations",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -43,7 +43,6 @@
   ],
   "author": "umairahmedyounas1987@gmail.com",
   "license": "MIT",
-  
   "repository": {
     "type": "git",
     "url": "https://github.com/NILEG/QuantumSimulator.git"
