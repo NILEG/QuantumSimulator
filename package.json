@@ -1,5 +1,5 @@
 {
-  "name": "quanta",
+  "name": "quanta_sim",
   "version": "1.0.0",
   "description": "A comprehensive quantum computing simulator library with support for quantum circuits, gates, measurements, and classical conditional operations",
   "main": "dist/index.js",

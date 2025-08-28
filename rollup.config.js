@@ -58,9 +58,9 @@ export default [
     input: "src/index.js",
     external: [],
     output: {
-      file: "dist/quanta.umd.js",
+      file: "dist/quanta_sim.umd.js",
       format: "umd",
-      name: "Quanta",
+      name: "QuantaSim",
       sourcemap: true,
       globals: {
         mathjs: "math",
@@ -73,9 +73,9 @@ export default [
     input: "src/index.js",
     external: [],
     output: {
-      file: "dist/quanta.umd.min.js",
+      file: "dist/quanta_sim.umd.min.js",
       format: "umd",
-      name: "Quanta",
+      name: "QuantaSim",
       sourcemap: true,
       globals: {
         mathjs: "math",
