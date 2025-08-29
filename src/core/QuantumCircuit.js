@@ -21,6 +21,7 @@ import { Gate } from "./Gate.js";
 import { CircuitOperation } from "./CircuitOperation.js";
 import { ClassicalCondition } from "../classical/ClassicalCondition.js";
 import { ComplexNumber } from "../utils/ComplexNumber.js";
+import { SimulatorConfiguration } from "../config/SimulatorConfiguration.js";
 export class QuantumCircuit {
   constructor(
     numQubits,
