@@ -1283,50 +1283,152 @@ export class QuantumCircuit {
     }
     return cloned;
   }
-  // Simulation methods (keeping the original random simulation)
+
   simulate(shots = 1024) {
+    // Execute the circuit deterministically to get final probability distribution
+    const deterministicResult = this.executeDeterministic();
+    const finalProbabilities = deterministicResult.finalProbabilities;
+
+    // Filter out states with zero probability and prepare for sampling
+    const nonZeroStates = finalProbabilities.filter(
+      (state) => state.probability > 1e-10
+    );
+
+    if (nonZeroStates.length === 0) {
+      throw new Error("No valid quantum states found");
+    }
+
+    // Create cumulative probability distribution for sampling
+    let cumulativeProb = 0;
+    const cumulativeDistribution = nonZeroStates.map((state) => {
+      cumulativeProb += state.probability;
+      return {
+        state: state.state,
+        probability: state.probability,
+        cumulative: cumulativeProb,
+        classicalRegisters: new Map(deterministicResult.classicalRegisters),
+      };
+    });
+
     const results = {};
 
     for (let shot = 0; shot < shots; shot++) {
-      // Create a copy of the circuit for this shot
-      const circuitCopy = this._createCopy();
+      let selectedState;
 
-      // Execute all operations
-      for (const operation of circuitCopy.operations) {
-        if (operation.type === "measurement") {
-          const qubit = operation.qubits[0];
-          const classicalBit = operation.classicalBits[0];
-          if (operation.isConditionSatisfied(circuitCopy.classicalBits)) {
-            circuitCopy.classicalBits[classicalBit] =
-              circuitCopy._simulateMeasurement(qubit);
-          }
-        }
+      // Find states with maximum probability
+      const maxProbability = Math.max(
+        ...nonZeroStates.map((s) => s.probability)
+      );
+      const maxProbStates = nonZeroStates.filter(
+        (s) => Math.abs(s.probability - maxProbability) < 1e-10
+      );
+
+      if (maxProbStates.length === 1) {
+        // Single state with highest probability
+        selectedState = maxProbStates[0];
+      } else {
+        // Multiple states with equal highest probability - select randomly
+        const randomIndex = Math.floor(Math.random() * maxProbStates.length);
+        selectedState = maxProbStates[randomIndex];
       }
 
-      // Record the result
-      const resultString = circuitCopy.classicalBits.join("");
+      // Convert quantum state to classical register string
+      // Remove |⟩ brackets from state notation (e.g., "|00⟩" -> "00")
+      const quantumStateString = selectedState.state.slice(1, -1);
+
+      // Create result string from classical registers in sorted order
+      let resultString = "";
+      const sortedRegisterNames = Array.from(
+        deterministicResult.classicalRegisters.keys()
+      ).sort();
+
+      for (const registerName of sortedRegisterNames) {
+        const register =
+          deterministicResult.classicalRegisters.get(registerName);
+        resultString += register.toString();
+      }
+
+      // If no measurements were made, use the quantum state directly
+      if (
+        resultString === "" ||
+        this.operations.every((op) => op.type !== "measurement")
+      ) {
+        resultString = quantumStateString;
+      }
+
       results[resultString] = (results[resultString] || 0) + 1;
     }
 
     return results;
   }
 
-  _createCopy() {
-    const copy = new QuantumCircuit(
-      this.numQubits,
-      this.numClassicalBits,
-      this.config
-    );
-    copy.stateVector = this.stateVector;
-    copy.operations = [...this.operations];
-    copy.classicalBits = [...this.classicalBits];
-    return copy;
-  }
+  // Alternative implementation that uses weighted random sampling instead of max probability
+  simulateWeighted(shots = 1024) {
+    // Execute the circuit deterministically to get final probability distribution
+    const deterministicResult = this.executeDeterministic();
+    const finalProbabilities = deterministicResult.finalProbabilities;
 
-  _simulateMeasurement(qubit) {
-    const probs = this.getQubitProbabilities();
-    const prob0 = probs[qubit][0];
-    return Math.random() < prob0 ? 0 : 1;
+    // Filter out states with zero probability
+    const nonZeroStates = finalProbabilities.filter(
+      (state) => state.probability > 1e-10
+    );
+
+    if (nonZeroStates.length === 0) {
+      throw new Error("No valid quantum states found");
+    }
+
+    // Create cumulative probability distribution for weighted sampling
+    let cumulativeProb = 0;
+    const cumulativeDistribution = nonZeroStates.map((state) => {
+      cumulativeProb += state.probability;
+      return {
+        state: state.state,
+        probability: state.probability,
+        cumulative: cumulativeProb,
+      };
+    });
+
+    const results = {};
+
+    for (let shot = 0; shot < shots; shot++) {
+      const random = Math.random();
+
+      // Find the state corresponding to this random value
+      let selectedState = cumulativeDistribution.find(
+        (state) => random <= state.cumulative
+      );
+      if (!selectedState) {
+        selectedState =
+          cumulativeDistribution[cumulativeDistribution.length - 1];
+      }
+
+      // Convert quantum state to result string
+      const quantumStateString = selectedState.state.slice(1, -1);
+
+      // Create result string from classical registers
+      let resultString = "";
+      const sortedRegisterNames = Array.from(
+        deterministicResult.classicalRegisters.keys()
+      ).sort();
+
+      for (const registerName of sortedRegisterNames) {
+        const register =
+          deterministicResult.classicalRegisters.get(registerName);
+        resultString += register.toString();
+      }
+
+      // If no measurements were made, use the quantum state directly
+      if (
+        resultString === "" ||
+        this.operations.every((op) => op.type !== "measurement")
+      ) {
+        resultString = quantumStateString;
+      }
+
+      results[resultString] = (results[resultString] || 0) + 1;
+    }
+
+    return results;
   }
 
   // Get measurement counts

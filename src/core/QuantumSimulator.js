@@ -43,6 +43,11 @@ export class QuantumSimulator {
     this.currentCircuit = circuit;
     return circuit;
   }
+  setCircuit(circuit, name) {
+    circuit.name = name;
+    this.circuits.set(name, circuit);
+    this.currentCircuit = circuit;
+  }
 
   getCircuit(name) {
     return this.circuits.get(name);
