@@ -54,3 +54,5 @@ console.log(
   phaseCircuit.getClassicalValue("c")
 );
 ```
+
+More Examples can be found in the examples folder
